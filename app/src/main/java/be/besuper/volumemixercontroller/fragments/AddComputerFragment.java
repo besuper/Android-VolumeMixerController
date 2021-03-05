@@ -18,6 +18,7 @@ import be.besuper.volumemixercontroller.MainActivity;
 import be.besuper.volumemixercontroller.R;
 import be.besuper.volumemixercontroller.computer.Computer;
 import be.besuper.volumemixercontroller.computer.SComputer;
+import be.besuper.volumemixercontroller.websocket.WebSockClient;
 
 public class AddComputerFragment extends Fragment {
 
@@ -63,7 +64,7 @@ public class AddComputerFragment extends Fragment {
             }
 
             if (is_duplicate) {
-                Toast.makeText(view.getContext(), "Computer already exist!", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), getString(R.string.computer_already_exist), Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -72,6 +73,79 @@ public class AddComputerFragment extends Fragment {
             toolbar.setNavigationIcon(null);
             item.setVisible(true);
             NavHostFragment.findNavController(AddComputerFragment.this).navigate(R.id.action_AddComputer_to_FirstFragment);
+        });
+
+        final Button auto_search = view.findViewById(R.id.auto_search);
+
+        auto_search.setOnClickListener(view13 -> {
+            auto_search.setEnabled(false);
+            add_computer.setEnabled(false);
+            auto_search.setText("Searching...");
+
+            new Thread(() -> {
+
+                int fb = 1;
+                int fa = 0;
+
+                WebSockClient client = null;
+                String bind = "";
+
+                search: while (true) {
+                    try {
+                        if(fb >= 64){
+                            if(fa == 0){
+                                fa = 1;
+                                fb = 2;
+                                continue;
+                            }
+                            break;
+                        }
+
+                        fb++;
+
+                        bind = "192.168."+fa+"."+fb+":25565";
+
+                        for (final Computer com : SComputer.computers) {
+                            if (com.getBind().equals(bind)) {
+                                continue search;
+                            }
+                        }
+
+                        client = new WebSockClient(bind);
+                        client.connect();
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(client.isOpen()){
+                            break;
+                        }
+
+                        client.close();
+                    } catch (Exception ignored) {
+                    }
+                }
+
+                if(client == null || !client.isOpen()) {
+                    MainActivity.activity.runOnUiThread(() -> Toast.makeText(view.getContext(), "No device found :(", Toast.LENGTH_LONG).show());
+                }else {
+                    SComputer.addComputer(bind);
+
+                    MainActivity.activity.runOnUiThread(() -> {
+                        toolbar.setNavigationIcon(null);
+                        item.setVisible(true);
+                        NavHostFragment.findNavController(AddComputerFragment.this).navigate(R.id.action_AddComputer_to_FirstFragment);
+                    });
+                }
+
+                MainActivity.activity.runOnUiThread(() -> {
+                    auto_search.setText(getString(R.string.auto_search));
+                    auto_search.setEnabled(true);
+                    add_computer.setEnabled(true);
+                });
+            }).start();
         });
     }
 }

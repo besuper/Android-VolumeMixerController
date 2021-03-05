@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="be.besuper.volumemixercontroller.fragments.FirstFragment"
-        android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
         <action
@@ -22,7 +21,6 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="be.besuper.volumemixercontroller.fragments.SecondFragment"
-        android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 
         <action
@@ -33,7 +31,6 @@
     <fragment
         android:id="@+id/AddComputerFragment"
         android:name="be.besuper.volumemixercontroller.fragments.AddComputerFragment"
-        android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_add_computer">
 
         <action

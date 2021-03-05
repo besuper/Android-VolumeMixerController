@@ -1,7 +1,19 @@
 <resources>
     <string name="app_name">Volume Mixer Controller</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+
+    <!-- Delete pop up -->
+    <string name="confirm">Confirm</string>
+    <string name="confirm_message">Do you really want to delete this computer?</string>
+    <string name="deleted">Deleted</string>
+    <string name="error">Error</string>
+
+    <!-- Connection to web socket -->
+    <string name="unable_connect">"Unable to connect"</string>
+
+    <!-- Add a computer fragment -->
+    <string name="computer_already_exist">Computer already exist!</string>
+    <string name="add_computer">Add a computer</string>
+    <string name="add">Add</string>
+    <string name="auto_search">Auto search</string>
 
 </resources>

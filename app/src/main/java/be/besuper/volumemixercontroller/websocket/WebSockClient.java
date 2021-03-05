@@ -25,6 +25,11 @@ public class WebSockClient extends WebSocketClient {
         this.computer = computer;
     }
 
+    public WebSockClient(final String bind) throws URISyntaxException {
+        super(new URI("ws://" + bind));
+        this.computer = null;
+    }
+
     @Override
     public void onOpen(final ServerHandshake handshake) {
         send("APPS"); // Get all APPS
@@ -48,7 +53,7 @@ public class WebSockClient extends WebSocketClient {
             }
         }
 
-        if (message.startsWith("{\"info\":") && this.computer.getName().equals("Unknow")) {
+        if (message.startsWith("{\"info\":") && this.computer.getName().equals("Unknown")) {
             try {
                 SComputer.fixComputerName(new JSONObject(message).getJSONObject("info").getString("computer"), this.computer);
             } catch (JSONException e) {

@@ -72,21 +72,21 @@ public class FirstFragment extends Fragment {
                 btn.setCompoundDrawables(null, null, draw, null);
 
                 final AlertDialog.Builder delete = new AlertDialog.Builder(view.getContext())
-                        .setTitle("Confirm")
-                        .setMessage("Do you really want to delete this computer?")
+                        .setTitle(getString(R.string.confirm))
+                        .setMessage(getString(R.string.confirm_message))
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                        .setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
 
                             SComputer.computers.remove(comp);
 
                             if(SComputer.deleteFile(comp.getName() + ".txt")) {
-                                Toast.makeText(view.getContext(), "Deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(view.getContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show();
                                 getParentFragmentManager().beginTransaction().detach(this).attach(this).commit();
                             }else {
-                                Toast.makeText(view.getContext(), "Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(view.getContext(), getString(R.string.error), Toast.LENGTH_SHORT).show();
                             }
                         })
-                        .setNegativeButton(android.R.string.no, null);
+                        .setNegativeButton(android.R.string.cancel, null);
 
                 btn.setOnLongClickListener(view12 -> {
                     delete.show();
@@ -111,11 +111,11 @@ public class FirstFragment extends Fragment {
                             // Send to second fragment!
                             NavHostFragment.findNavController(FirstFragment.this).navigate(R.id.action_FirstFragment_to_SecondFragment);
                         } else {
-                            Toast.makeText(view.getContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+                            Toast.makeText(view.getContext(), getString(R.string.unable_connect), Toast.LENGTH_LONG).show();
                         }
 
                     } catch (URISyntaxException e) {
-                        Toast.makeText(view.getContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.getContext(), getString(R.string.unable_connect), Toast.LENGTH_LONG).show();
                     }
                 });
 

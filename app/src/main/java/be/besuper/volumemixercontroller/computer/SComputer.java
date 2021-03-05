@@ -28,7 +28,7 @@ public class SComputer {
     }
 
     public static void addComputer(final String bind) {
-        final Computer computer = new Computer("Unknow", bind);
+        final Computer computer = new Computer("Unknown", bind);
 
         computers.add(computer);
 
@@ -36,7 +36,7 @@ public class SComputer {
     }
 
     public static void fixComputerName(String name, Computer computer) {
-        deleteFile("Unknow.txt");
+        deleteFile("Unknown.txt");
 
         computer.setName(name);
 
